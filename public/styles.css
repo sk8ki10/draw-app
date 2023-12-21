@@ -1,0 +1,70 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-family: "SF Pro", sans-serif; /* Assuming you have the SF Pro font available */
+}
+
+h1 {
+  margin: 32px;
+}
+
+canvas {
+  border: 1px solid #000;
+}
+
+.draw__container {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 32px;
+  background-color: rgba(100, 200, 255, 0.1);
+  border-radius: 15px;
+}
+
+.instructions__interface {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.button__container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button__interface {
+  margin-top: 12px;
+  padding: 0px 18px;
+  border-radius: 15px;
+  background-color: rgb(219, 219, 219);
+  border: none;
+  font-weight: 700;
+}
+
+.succes {
+  margin-top: 12px;
+  padding: 6px 18px;
+  border-radius: 15px;
+  background-color: rgb(10, 100, 255);
+  border: none;
+  color: white;
+  font-weight: 700;
+}
+
+.clear {
+  margin-top: 12px;
+  padding: 6px 18px;
+  border-radius: 15px;
+  background-color: rgb(255, 213, 0);
+  border: none;
+  color: black;
+  font-weight: 700;
+}
+.drawings__container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}

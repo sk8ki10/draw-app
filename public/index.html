@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Training Canvas</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Help Train My AI (letter edition)</h1>
+    <div class="draw__container">
+      <div class="instructions__interface">
+        <button class="button__interface" onclick="goToPreviousTopic()">
+          Back
+        </button>
+        <p>Draw a: <strong id="instruction"></strong></p>
+        <button class="button__interface" onclick="goToNextTopic()">
+          Next
+        </button>
+      </div>
+      <canvas id="drawingCanvas" width="300" height="300"></canvas>
+      <div class="button__container">
+        <button class="clear" onclick="clearDrawing()">Clear drawing</button>
+        <button class="succes" onclick="saveDrawing()">Submit</button>
+      </div>
+    </div>
+
+    <div class="drawings__container" id="drawingsContainer"></div>
+
+    <script>
+      const canvas = document.getElementById("drawingCanvas");
+      const ctx = canvas.getContext("2d");
+      let isDrawing = false;
+      const topics = [
+        "Capital A",
+        "Capital B",
+        "Capital C",
+        "Capital D",
+        "Capital E",
+        "Capital F",
+        "Capital G",
+        "Capital H",
+        "Capital I",
+        "Capital J",
+        "Capital K",
+        "Capital L",
+        "Capital M",
+        "Capital N",
+        "Capital O",
+        "Capital P",
+        "Capital Q",
+        "Capital R",
+        "Capital S",
+        "Capital T",
+        "Capital U",
+        "Capital V",
+        "Capital W",
+        "Capital X",
+        "Capital Y",
+        "Capital Z",
+      ];
+      let currentTopicIndex = 0;
+
+      function init() {
+        setInstruction();
+      }
+
+      window.onload = function () {
+        init();
+        fetchDrawingsForCurrentTopic();
+      };
+
+      function setInstruction() {
+        const instructionElement = document.getElementById("instruction");
+        instructionElement.innerText = topics[currentTopicIndex];
+      }
+
+      canvas.addEventListener("mousedown", startDrawing);
+      canvas.addEventListener("mousemove", draw);
+      canvas.addEventListener("mouseup", stopDrawing);
+      canvas.addEventListener("mouseout", stopDrawing);
+
+      function startDrawing(e) {
+        isDrawing = true;
+        draw(e);
+      }
+
+      function draw(e) {
+        if (!isDrawing) return;
+
+        ctx.lineWidth = 2;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = "#000";
+
+        ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+      }
+
+      function stopDrawing() {
+        isDrawing = false;
+        ctx.beginPath();
+      }
+
+      function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      function clearDrawing() {
+        clearCanvas(); // Call the existing clearCanvas function
+      }
+      function goToNextTopic() {
+        currentTopicIndex = (currentTopicIndex + 1) % topics.length;
+        fetchDrawingsForCurrentTopic();
+        setInstruction();
+      }
+      function goToPreviousTopic() {
+        if (currentTopicIndex === 0) {
+          currentTopicIndex = topics.length;
+        }
+        currentTopicIndex = (currentTopicIndex - 1) % topics.length;
+        fetchDrawingsForCurrentTopic();
+        setInstruction();
+      }
+
+      function saveDrawing() {
+        const imageDataURL = canvas.toDataURL("image/jpeg");
+
+        // Send the image data to the server using AJAX
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              alert("Drawing saved successfully!");
+            } else {
+              alert("Failed to save drawing.");
+            }
+          }
+        };
+
+        xhr.open("POST", "/savedrawing", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(
+          JSON.stringify({
+            topic: topics[currentTopicIndex],
+            image: JSON.stringify(imageDataURL.split(",")[1]),
+          })
+        );
+        xhr.onerror = function (error) {
+          console.error(error);
+        };
+      }
+      function fetchDrawingsForCurrentTopic() {
+        const folderName = topics[currentTopicIndex]; // Assuming topics is an array of folder names
+        const fetchUrl = `/fetchDocuments/${folderName}`;
+
+        fetch(fetchUrl)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                `Failed to fetch drawings: ${response.statusText}`
+              );
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            // Handle the retrieved documents
+            const documentsContainer =
+              document.getElementById("drawingsContainer");
+
+            // Clear previous documents
+            documentsContainer.innerHTML = "";
+
+            if (data.documents && Array.isArray(data.documents)) {
+              // Display each document in reverse order (from new to old)
+              for (let i = data.documents.length - 1; i >= 0; i--) {
+                let image = data.documents[i];
+                let imageElement = document.createElement("img");
+                imageElement.src = `${image.imageLink}`;
+                imageElement.alt = "Jules docx letters";
+                documentsContainer.appendChild(imageElement);
+              }
+            } else {
+              console.error("Invalid data structure:", data);
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("Error fetching documents.");
+          });
+      }
+    </script>
+  </body>
+</html>
