@@ -114,6 +114,7 @@
         currentTopicIndex = (currentTopicIndex + 1) % topics.length;
         fetchDrawingsForCurrentTopic();
         setInstruction();
+        clearCanvas();
       }
       function goToPreviousTopic() {
         if (currentTopicIndex === 0) {
@@ -122,6 +123,7 @@
         currentTopicIndex = (currentTopicIndex - 1) % topics.length;
         fetchDrawingsForCurrentTopic();
         setInstruction();
+        clearCanvas();
       }
 
       function saveDrawing() {
@@ -132,7 +134,7 @@
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-              alert("Drawing saved successfully!");
+              true;
             } else {
               alert("Failed to save drawing.");
             }
@@ -150,6 +152,8 @@
         xhr.onerror = function (error) {
           console.error(error);
         };
+        goToNextTopic();
+        clearCanvas();
       }
       function fetchDrawingsForCurrentTopic() {
         const folderName = topics[currentTopicIndex]; // Assuming topics is an array of folder names
