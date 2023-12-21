@@ -125,7 +125,7 @@
       }
 
       function saveDrawing() {
-        const imageDataURL = canvas.toDataURL("image/jpeg");
+        const imageDataURL = canvas.toDataURL("image/png");
 
         // Send the image data to the server using AJAX
         const xhr = new XMLHttpRequest();
@@ -165,7 +165,6 @@
             return response.json();
           })
           .then((data) => {
-            console.log(data);
             // Handle the retrieved documents
             const documentsContainer =
               document.getElementById("drawingsContainer");
