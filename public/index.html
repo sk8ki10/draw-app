@@ -79,6 +79,39 @@
       canvas.addEventListener("mousemove", draw);
       canvas.addEventListener("mouseup", stopDrawing);
       canvas.addEventListener("mouseout", stopDrawing);
+      canvas.addEventListener("touchstart", handleTouchStart, {
+        passive: false,
+      });
+      canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
+      canvas.addEventListener("touchend", handleTouchEnd, false);
+
+      function handleTouchStart(event) {
+        drawing = true;
+        const { touches } = event;
+        if (touches.length === 1) {
+          const touch = touches[0];
+          ctx.beginPath();
+          ctx.moveTo(touch.clientX - 50, touch.clientY - 250);
+        }
+      }
+
+      function handleTouchMove(event) {
+        if (!drawing) return;
+        const { touches } = event;
+        if (touches.length === 1) {
+          const touch = touches[0];
+          ctx.lineTo(touch.clientX - 50, touch.clientY - 250);
+          ctx.stroke();
+        }
+
+        // Prevent the default behavior (scrolling) of the touchmove event
+        event.preventDefault();
+      }
+
+      function handleTouchEnd() {
+        drawing = false;
+        ctx.closePath();
+      }
 
       function startDrawing(e) {
         isDrawing = true;
