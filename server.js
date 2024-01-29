@@ -2,12 +2,13 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const config = {
-  apiKey: "AIzaSyDlcem2X9UbFxE20qozxvn1pBftoNbtJ2g",
-  authDomain: "development-v-321909.firebaseapp.com",
-  projectId: "development-v-321909",
-  storageBucket: "development-v-321909.appspot.com",
-  messagingSenderId: "751787708018",
-  appId: "1:751787708018:web:46d2c272227bebba173ceb",
+  apiKey: "AIzaSyAXRs_fBeYsmRdKzT1CSDimzVDKOKunS_8",
+  authDomain: "gratitude-205dc.firebaseapp.com",
+  projectId: "gratitude-205dc",
+  storageBucket: "gratitude-205dc.appspot.com",
+  messagingSenderId: "250696037193",
+  appId: "1:250696037193:web:e646e4a2ffd5ec4c94a098",
+  measurementId: "G-X6GNFEP125"
 };
 
 const firebase = require("firebase/app");

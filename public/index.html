@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>Help Train My AI (letter edition)</h1>
+    <h1>Gratitude</h1>
+    <p>Draw ur classmates</p>
     <div class="draw__container">
       <div class="instructions__interface">
         <button class="button__interface" onclick="goToPreviousTopic()">
           Back
         </button>
-        <p>Draw a: <strong id="instruction"></strong></p>
+        <p>Draw: <strong id="instruction"></strong></p>
         <button class="button__interface" onclick="goToNextTopic()">
           Next
         </button>
@@ -32,34 +33,39 @@
       const ctx = canvas.getContext("2d");
       let isDrawing = false;
       const topics = [
-        "Capital A",
-        "Capital B",
-        "Capital C",
-        "Capital D",
-        "Capital E",
-        "Capital F",
-        "Capital G",
-        "Capital H",
-        "Capital I",
-        "Capital J",
-        "Capital K",
-        "Capital L",
-        "Capital M",
-        "Capital N",
-        "Capital O",
-        "Capital P",
-        "Capital Q",
-        "Capital R",
-        "Capital S",
-        "Capital T",
-        "Capital U",
-        "Capital V",
-        "Capital W",
-        "Capital X",
-        "Capital Y",
-        "Capital Z",
+        "Camille",
+        "Elian",
+        "Emma",
+        "Fenna",
+        "Jan",
+        "Jimmy",
+        "Jules",
+        "Julie",
+        "June",
+        "Kalvin",
+        "Kate",
+        "Katrijn",
+        "Laura",
+        "Luis Manuel",
+        "Mélanie",
+        "Mirthe",
+        "Naël",
+        "Natan",
+        "Rafaela",
+        "Robbe",
+        "Roos",
+        "Siebe",
+        "Johan",
+        "Jan Pill",
+        "Klaas",
+        "Anelies",
+        "Inge",
+        "Guillaume",
+        "Bart",
+        "Sandy",
+
       ];
-      let currentTopicIndex = 0;
+      let currentTopicIndex = Math.floor(Math.random()* topics.length) ;
 
       function init() {
         setInstruction();
@@ -215,7 +221,7 @@
                 let image = data.documents[i];
                 let imageElement = document.createElement("img");
                 imageElement.src = `${image.imageLink}`;
-                imageElement.alt = "Jules docx letters";
+                imageElement.alt = "mind people";
                 documentsContainer.appendChild(imageElement);
               }
             } else {
